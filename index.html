@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML2PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+    <button id="generatePdf">Generate PDF</button>
+
+    <div id="pdf">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem modi reiciendis, earum laboriosam, fuga
+        numquam enim sequi optio iste nesciunt in facilis fugit quae temporibus! Dolorem deserunt perspiciatis odio sint
+        temporibus iste laborum exercitationem. Soluta optio, fuga, minus ea fugit dolore iure aspernatur odit mollitia
+        voluptates eius dolorem saepe nulla tempora commodi! Architecto incidunt expedita sit excepturi voluptatibus
+        beatae nostrum quisquam suscipit repudiandae pariatur et aut culpa autem necessitatibus consequuntur officia
+        quia, quidem adipisci ad impedit illo asperiores voluptate ab. Asperiores vero dolorum pariatur libero iste.
+        Accusantium vitae soluta suscipit esse officia architecto consectetur voluptates quasi natus eveniet, iusto
+        totam?
+    </div>
+
+    <script>
+        const genBtn = document.getElementById("generatePdf");
+
+        genBtn.addEventListener("click", function () {
+            var element = document.getElementById('pdf');
+            var opt = {
+                margin: 0.5,
+                image: { type: 'jpeg', quality: 0.98 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+                const blob = pdf.output('blob');
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'document.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
